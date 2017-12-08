@@ -72,9 +72,9 @@ function _generateAnswer(a) {
                         </label>
                         <input 
                             type="radio" 
-                            name="answer-${a.ID}" 
+                            name="answer-set" 
                             id="answer-${a.ID}" 
-                            class="js-input-${a.position}"
+                            class="question js-input-${a.position}"
                             value="${a.ID}"
                             >
                     </figure>
@@ -292,7 +292,7 @@ function _generateWinScreen(c) {
                     <span class="nav-element">Correct: ${c.correct}</span>
                     <span class="nav-element">Wrong: ${c.wrong}</span>
                     <input class="nav-element prev-button" role="button" type="button" value="" disabled>
-                    <input class="nav-element nav-button reset" role="button" type="submit" value="Reset?">
+                    <input class="nav-element next-button reset" role="button" type="submit" value="Reset?">
                 </nav>
             </form>
         `));
@@ -333,9 +333,10 @@ function handleNav(c) {
     $('#main-app').on('click', '.next-button', (event) => {
         event.preventDefault();
 
+
         // update the value of the answer in the state.
         // in this version, you must always pick an answer again if you go back
-        c.playerAnswers[c.questionNum] = $('input[name="question"]:checked').val();
+        c.playerAnswers[c.questionNum] = $('input.question:checked').val();
 
         // call the update score method on the state and increment the question number
         if (c.questionNum < c.playerAnswers.length &&
