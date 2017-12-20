@@ -1,4 +1,81 @@
 "use strict";
+
+let QUESTIONS = [];
+
+// using an object to store the state
+const currentState = {
+    // called at the beginning of every session
+    resetState: function() {
+        // initialize values
+        this.questionNum = 0;
+        this.playerAnswers = [];
+        this.correct = 0;
+        this.wrong = 0;
+    },
+    updateScore: function() {
+        // this method updates the values for correct and wrong
+        this.correct = this.wrong = 0;
+        // doesn't run when playerAnswers is empty
+        this.playerAnswers.forEach((playerAnswer, i) => {
+            // count the score
+            const q = QUESTIONS[i].answers;
+
+            for (let answer in q) {
+                if (q[answer].ID === parseInt(playerAnswer, 10)) {
+                    if (q[answer].isCorrect) {
+                        this.correct++;
+                        break;
+                    } else {
+                        this.wrong++;
+                        break;
+                    }
+                }
+            }
+        }, this);
+    }
+};
+// stubs for rapidly testing win or lose state
+// to use just change currentState in 'handleQuiz' to one of these
+const loseState = Object.create(currentState);
+loseState.resetState = function() {
+    this.questionNum = 0;
+    this.playerAnswers = [2, 1, 2, 3, 2];
+    this.correct = 0;
+    this.wrong = 0;
+};
+// this one does require you to get the first answer correct
+const winState = Object.create(currentState);
+winState.resetState = function() {
+    this.questionNum = 0;
+    this.playerAnswers = [0, 0, 0, 0, 0];
+    this.correct = 0;
+    this.wrong = 0;
+};
+// this generates a form entry and positions it using inline css
+function _generateAnswer(a) {
+    return `
+                
+<figure 
+    class="answer"
+    >
+    <label 
+        for="answer-${a.ID}" 
+        class="js-label-${a.position}"
+        >
+        ${a.value}
+    </label>
+    <input 
+        type="radio" 
+        name="answer-set" 
+        id="answer-${a.ID}" 
+        class="question js-input-${a.position}"
+        value="${a.ID}"
+        >
+</figure>
+                             
+            `;
+}
+
 // helper functions
 // fisher-yates shuffle
 // for shuffling answers
@@ -19,30 +96,6 @@ const shuffle = array => {
     return array;
 };
 
-//{
-//            "category": "Entertainment: Video Games",
-//            "type": "multiple",
-//            "difficulty": "easy",
-//            "question": "What&#039;s the best selling video game to date?",
-//            "correct_answer": "Tetris",
-//            "incorrect_answers": [
-//                "Wii Sports",
-//                "Minecraft",
-//                "Super Mario Bros"
-//            ]
-//        }
-
-// question data model
-const model = {
-    question: "What is 1 + 1?",
-    answers: [
-        {
-            ID: 0,
-            value: "",
-            isCorrect: false
-        }
-    ]
-};
 // serialize function processes our response data into our model format
 const _serializeResponse = r => {
     return r.results.map(function(e) {
@@ -72,74 +125,6 @@ const _serializeResponse = r => {
     });
 };
 
-// using an object to store the state
-const currentState = {
-    // called at the beginning of every session
-    resetState: function() {
-        // initialize values
-        this.questionNum = 0;
-        this.playerAnswers = [];
-        this.correct = 0;
-        this.wrong = 0;
-    },
-    updateScore: function() {
-        // this method updates the values for correct and wrong
-        this.correct = this.wrong = 0;
-        // doesn't run when playerAnswers is empty
-        this.playerAnswers.forEach((playerAnswer, i) => {
-            // count the score
-            if (QUESTIONS[i].answers[playerAnswer].isCorrect) {
-                this.correct++;
-            } else {
-                this.wrong++;
-            }
-        }, this);
-    }
-};
-// stubs for rapidly testing win or lose state
-// to use just change currentState in 'handleQuiz' to one of these
-const loseState = Object.create(currentState);
-loseState.resetState = function() {
-    this.questionNum = 0;
-    this.playerAnswers = [0, 0, 0, 0, 0];
-    this.correct = 0;
-    this.wrong = 0;
-};
-// this one does require you to get the first answer correct
-const winState = Object.create(currentState);
-winState.resetState = function() {
-    this.questionNum = 0;
-    this.playerAnswers = [2, 1, 2, 3, 2];
-    this.correct = 0;
-    this.wrong = 0;
-};
-// this generates a form entry and positions it using inline css
-function _generateAnswer(a) {
-    return `
-                
-<figure 
-    class="answer"
-    style="
-        left: ${a.offset.left}px; 
-        top: ${a.offset.top}px;"
-    >
-    <label 
-        for="answer-${a.ID}" 
-        class="js-label-${a.position}"
-        >
-        ${a.value}
-    </label>
-    <input 
-        type="radio" 
-        name="answer-set" 
-        id="answer-${a.ID}" 
-        class="question js-input-${a.position}"
-        value="${a.ID}"
-        >
-</figure>
-                             
-            `;
-}
 // more or less the main internal function
 // this covers everything except the win screen
 function _renderForm(c, index) {
@@ -179,7 +164,7 @@ function _renderForm(c, index) {
         <aside
             class="form-column"
             >
-            ${_returnAside(c)}
+            
         </aside>
     </section>
     <nav
@@ -254,7 +239,7 @@ function _returnWinScreenContent(c) {
         // get all the question titles
         QUESTIONS.forEach((question, index) => {
             if (!question.answers[c.playerAnswers[index]].isCorrect) {
-                wrongAnswers.push(question.title + ",");
+                wrongAnswers.push(`Question ${index + 1},`);
             }
         });
         // put an 'and' in there 2nd to last
@@ -359,7 +344,9 @@ function handleNav(c) {
     });
 }
 
-function handleQuiz() {
+function handleQuiz(data) {
+    QUESTIONS = _serializeResponse(data);
+
     // change current to win or lose to try that stub
     // state is always passed as a parameter for easy stubbing
     const state = currentState;
@@ -371,4 +358,4 @@ function handleQuiz() {
     return 0;
 }
 // here is where we import our questions data model.
-$.getScript("questions.js", handleQuiz);
+$.getJSON("https://opentdb.com/api.php?amount=5", handleQuiz);
