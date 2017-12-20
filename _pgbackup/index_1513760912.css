@@ -26,17 +26,3 @@ html {
         width: 700px;
     }
 }
-
-.form-row {
-    displ: ;
-}
-
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.form-column {
-    flex: 2 1 auto;
-}

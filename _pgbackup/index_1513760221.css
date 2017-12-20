@@ -1,0 +1,15 @@
+/* inherit box sizing */
+html {
+    box-sizing: border-box;
+    color: #005555;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.container {
+    width: 95%;
+}

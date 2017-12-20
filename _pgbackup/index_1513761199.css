@@ -34,7 +34,6 @@ html {
 .form-row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .form-column {

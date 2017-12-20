@@ -1,9 +1,11 @@
-'use strict'
+"use strict";
 // helper functions
 // fisher-yates shuffle
-const shuffle = (array) => {
+// for shuffling answers
+const shuffle = array => {
     let currentIndex = array.length,
-        temporaryValue, randomIndex;
+        temporaryValue,
+        randomIndex;
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
         // Pick a remaining element...
@@ -15,16 +17,61 @@ const shuffle = (array) => {
         array[randomIndex] = temporaryValue;
     }
     return array;
-}
-// question data model
-let model = {
-    "category": "Entertainment: Video Games",
-    "type": "multiple",
-    "difficulty": "easy",
-    "question": "What&#039;s the best selling video game to date?",
-    "correct_answer": "Tetris",
-    "incorrect_answers": ["Wii Sports", "Minecraft", "Super Mario Bros"]
 };
+
+//{
+//            "category": "Entertainment: Video Games",
+//            "type": "multiple",
+//            "difficulty": "easy",
+//            "question": "What&#039;s the best selling video game to date?",
+//            "correct_answer": "Tetris",
+//            "incorrect_answers": [
+//                "Wii Sports",
+//                "Minecraft",
+//                "Super Mario Bros"
+//            ]
+//        }
+
+// question data model
+const model = {
+    question: "What is 1 + 1?",
+    answers: [
+        {
+            ID: 0,
+            value: "",
+            isCorrect: false
+        }
+    ]
+};
+// serialize function processes our response data into our model format
+const _serializeResponse = r => {
+    return r.results.map(function(e) {
+        let array = [],
+            uniqueID = 0;
+
+        array.push({
+            ID: uniqueID,
+            value: e.correct_answer,
+            isCorrect: true
+        });
+
+        e.incorrect_answers.forEach(function(answer) {
+            uniqueID++;
+
+            array.push({
+                ID: uniqueID,
+                value: answer,
+                isCorrect: false
+            });
+        });
+
+        return {
+            question: e.question,
+            answers: shuffle(array)
+        };
+    });
+};
+
 // using an object to store the state
 const currentState = {
     // called at the beginning of every session
@@ -48,7 +95,7 @@ const currentState = {
             }
         }, this);
     }
-}
+};
 // stubs for rapidly testing win or lose state
 // to use just change currentState in 'handleQuiz' to one of these
 const loseState = Object.create(currentState);
@@ -57,7 +104,7 @@ loseState.resetState = function() {
     this.playerAnswers = [0, 0, 0, 0, 0];
     this.correct = 0;
     this.wrong = 0;
-}
+};
 // this one does require you to get the first answer correct
 const winState = Object.create(currentState);
 winState.resetState = function() {
@@ -65,7 +112,7 @@ winState.resetState = function() {
     this.playerAnswers = [2, 1, 2, 3, 2];
     this.correct = 0;
     this.wrong = 0;
-}
+};
 // this generates a form entry and positions it using inline css
 function _generateAnswer(a) {
     return `
@@ -94,7 +141,7 @@ function _generateAnswer(a) {
             `;
 }
 // more or less the main internal function
-// this covers everything except the win screen 
+// this covers everything except the win screen
 function _renderForm(c, index) {
     const q = QUESTIONS[index];
     const a = q.answers;
@@ -107,66 +154,68 @@ function _renderForm(c, index) {
     });
     // here is the template string where all these strings will be dumped into the scene
     // note the html comments
-    $('#main-app').html($(`
+    $("#main-app").html(
+        $(`
 
-<form method="post" id="main-form">
-    <fieldset>
-        <legend>
-            ${q.title}
-        </legend>
-        <h1>
-            ${q.text}
-        </h1>
-        <section 
-            id="drag-zone"
+<form
+    method="post"
+    id="main-form"
+    >
+    <section
+        class="form-row"
+        >
+        <fieldset
+            class="form-column"
             >
-            ${formElements.join('')}
-        </section>
-    </fieldset>
-    <nav 
+            <legend>
+                ${q.title}
+            </legend>
+            <h1>
+            ${q.question} </h1>
+            <section>
+                ${formElements.join("")}
+            </section>
+        </fieldset>
+        <aside
+            class="form-column"
+            >
+            ${_returnAside(c)}
+        </aside>
+    </section>
+    <nav
         role="navigation"
         >
-        <span 
+        <span
             class="nav-element"
-            >  
+            >
             Correct: ${c.correct}
         </span>
-        <span 
+        <span
             class="nav-element"
             >
             Wrong: ${c.wrong}
         </span>
-        <input 
-            class="nav-element prev-button nav-button" 
-            role="button" 
-            type="button" 
-            value="Prev"
-            >
-        <input 
-            class="nav-element next-button nav-button" 
-            role="button" 
-            type="submit" 
-            value="Next"
-            >
+        <input
+        class="nav-element prev-button nav-button"
+        role="button"
+        type="button"
+        value="Prev"
+        >
+        <input
+        class="nav-element next-button nav-button"
+        role="button"
+        type="submit"
+        value="Next"
+        >
     </nav>
 </form>
 
-        `));
-    // this is where our obstructions become draggable elements
-    // ideally youd want to do this with a delegate as in handle nav, but with widgets that is not available
-    $("#drag-zone").draggable({
-        containment: "#drag-zone-parent",
-        scroll: false
-    });
-    $(".obstruction").draggable({
-        containment: "#drag-zone",
-        scroll: false
-    });
-    // tooltip actually uses title text, not alt text
-    $('.answer-obstruction').tooltip();
+        `)
+    );
+
     return true;
 }
-// This returns the innermost part of the win screen. 
+// This returns the innermost part of the win screen.
 // It also handles the logic of  reviewing your game
 function _returnWinScreenContent(c) {
     // you won, easy enough
@@ -181,7 +230,6 @@ function _returnWinScreenContent(c) {
         Congratulations!
     </h1>
     <div 
-        id="drag-zone-frame"
         class="win-condition"
         >
         <div class="win-subgroup">
@@ -206,11 +254,12 @@ function _returnWinScreenContent(c) {
         // get all the question titles
         QUESTIONS.forEach((question, index) => {
             if (!question.answers[c.playerAnswers[index]].isCorrect) {
-                wrongAnswers.push(question.title + ',');
+                wrongAnswers.push(question.title + ",");
             }
         });
         // put an 'and' in there 2nd to last
-        if (wrongAnswers.length > 1) wrongAnswers.splice(wrongAnswers.length - 1, 0, 'and');
+        if (wrongAnswers.length > 1)
+            wrongAnswers.splice(wrongAnswers.length - 1, 0, "and");
         // slice in the template down below removes the trailing comma
         return `
 
@@ -222,7 +271,7 @@ function _returnWinScreenContent(c) {
         You turned into a skeleton!
     </h1>
     <div 
-        id="drag-zone-frame"
+
         class="win-condition"
         >
         <div class="win-subgroup">
@@ -235,7 +284,7 @@ function _returnWinScreenContent(c) {
                 >
             <p>
                 You Lose...<br>
-                You got ${wrongAnswers.join(' ').slice(0, -1)} wrong.</p>
+                You got ${wrongAnswers.join(" ").slice(0, -1)} wrong.</p>
         </div>
     </div>
 </fieldset>
@@ -246,7 +295,8 @@ function _returnWinScreenContent(c) {
 // main function for the win screen
 function _generateWinScreen(c) {
     // where the strings are put in the html
-    $('#main-app').html($(`
+    $("#main-app").html(
+        $(`
 
 <form 
     method="post"
@@ -261,11 +311,10 @@ function _generateWinScreen(c) {
     </nav>
 </form>
 
-        `));
-    // make our win/lose pic draggable and tool tippy
-    $('.grail').draggable().tooltip();
+        `)
+    );
     // reset the game
-    $('.reset').click((event) => {
+    $(".reset").click(event => {
         event.preventDefault();
         loadInitialState(c);
     });
@@ -280,20 +329,23 @@ function loadInitialState(c) {
 // basically the main logic function. handles score checking round to round
 function handleNav(c) {
     // watch for a click on the go back button
-    $('#main-app').on('click', '.prev-button', () => {
+    $("#main-app").on("click", ".prev-button", () => {
         if (c.questionNum > 0) {
             c.questionNum--;
             _renderForm(c, c.questionNum);
         }
     });
     // watch for click on next button. because it is also submit, it is more complex
-    $('#main-app').on('click', '.next-button', (event) => {
+    $("#main-app").on("click", ".next-button", event => {
         event.preventDefault();
         // update the value of the answer in the state.
         // in this version, you must always pick an answer again if you go back
-        c.playerAnswers[c.questionNum] = $('input.question:checked').val();
+        c.playerAnswers[c.questionNum] = $("input.question:checked").val();
         // call the update score method on the state and increment the question number
-        if (c.questionNum < c.playerAnswers.length && c.playerAnswers[c.questionNum]) {
+        if (
+            c.questionNum < c.playerAnswers.length &&
+            c.playerAnswers[c.questionNum]
+        ) {
             c.updateScore();
             c.questionNum++;
             // if we have answers for all questions, we go to the win screen,
@@ -319,4 +371,4 @@ function handleQuiz() {
     return 0;
 }
 // here is where we import our questions data model.
-$.getScript('questions.js', handleQuiz);
+$.getScript("questions.js", handleQuiz);

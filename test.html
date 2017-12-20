@@ -1,20 +1,20 @@
-<figure 
+<figure
     class="answer"
     style="
-        left: ${a.offset.left}px; 
-        top: ${a.offset.top}px;"
+    left: ${a.offset.left}px;
+    top: ${a.offset.top}px;"
     >
-    <label 
-        for="answer-${a.ID}" 
+    <label
+        for="answer-${a.ID}"
         class="js-label-${a.position}"
         >
         ${a.value}
     </label>
-    <input 
-        type="radio" 
-        name="answer-set" 
-        id="answer-${a.ID}" 
-        class="question js-input-${a.position}"
-        value="${a.ID}"
-        >
+    <input
+    type="radio"
+    name="answer-set"
+    id="answer-${a.ID}"
+    class="question js-input-${a.position}"
+    value="${a.ID}"
+    >
 </figure>
