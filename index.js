@@ -18,18 +18,10 @@ const currentState = {
         // doesn't run when playerAnswers is empty
         this.playerAnswers.forEach((playerAnswer, i) => {
             // count the score
-            const q = QUESTIONS[i].answers;
-
-            for (let answer in q) {
-                if (q[answer].ID === parseInt(playerAnswer, 10)) {
-                    if (q[answer].isCorrect) {
-                        this.correct++;
-                        break;
-                    } else {
-                        this.wrong++;
-                        break;
-                    }
-                }
+            if (parseInt(playerAnswer, 10) === 0) {
+                this.correct++;
+            } else {
+                this.wrong++;
             }
         }, this);
     }
@@ -104,8 +96,7 @@ const _serializeResponse = r => {
 
         array.push({
             ID: uniqueID,
-            value: e.correct_answer,
-            isCorrect: true
+            value: e.correct_answer
         });
 
         e.incorrect_answers.forEach(function(answer) {
@@ -113,8 +104,7 @@ const _serializeResponse = r => {
 
             array.push({
                 ID: uniqueID,
-                value: answer,
-                isCorrect: false
+                value: answer
             });
         });
 
@@ -237,8 +227,8 @@ function _returnWinScreenContent(c) {
         // you lost, begin the long process of string concatenation
         let wrongAnswers = [];
         // get all the question titles
-        QUESTIONS.forEach((question, index) => {
-            if (!question.answers[c.playerAnswers[index]].isCorrect) {
+        c.playerAnswers.forEach((answer, index) => {
+            if (parseInt(answer, 10) !== 0) {
                 wrongAnswers.push(`Question ${index + 1},`);
             }
         });
