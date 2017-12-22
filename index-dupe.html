@@ -11,37 +11,41 @@
 <body class="container">
 <header role="banner">
     <h1>
-        Cool Quiz and the Holy Grail
+        Ultimate Random Quiz
     </h1>
     <h2>
         Test your mettle with the random quiz generator
     </h2>
     <p>
-        Can you get all ten of these random quiz questions right?
+        Can you get all of these random quiz questions right?
     </p>
 </header>
 <main
 role="main"
-class="main-container"
+class="container__main"
 >
 <form
+    id="main-form"
+    role="form"
+    aria-labelledby="form-question"
     method="post"
+    class="main__form"
     >
     <section
-        class="form-row"
+        class="form__row"
         >
         <fieldset
             id="js-fieldset"
-            role="form"
+            role="radiogroup"
             aria-live="polite"
-            class="form-column"
+            class="form__column"
             >
         </fieldset>
         <aside
             id="js-aside"
             role="complementary"
             aria-live="assertive"
-            class="form-column"
+            class="form__column"
             >
         </aside>
     </section>
@@ -49,11 +53,14 @@ class="main-container"
         id="js-nav"
         role="navigation"
         aria-live="polite"
+        class="form__nav"
         >
     </nav>
 </form>
 </main>
-<footer role="contentinfo">
+<footer
+    role="contentinfo"
+    >
     Alex Webb 2017
 </footer>
 </body>

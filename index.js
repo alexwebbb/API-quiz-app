@@ -121,7 +121,11 @@ const _generateAnswer = a => {
 const _generateAside = (c, index) => {
     if (index > 0 && parseInt(c.playerAnswers[index - 1], 10) !== 0) {
         return `
-<h1>
+<h1
+    title="$You got that last question wrong."
+    aria-label="You got that last question wrong."
+    class="form__wrong-answer-header"
+    >
     Sorry... You got that last question wrong.
 </h1>
 <p>
@@ -132,6 +136,63 @@ const _generateAside = (c, index) => {
     `;
     } else {
         return "";
+    }
+};
+
+const _generateWinScreenContent = c => {
+    // you won, easy enough
+    if (QUESTIONS.length === c.correct) {
+        return `
+<legend>
+    Nice
+</legend>
+<h1
+    id="form-question"
+    title="You won! Congratulations!"
+    aria-label="You won! Congratulations!"
+    class="form__header"
+    >
+    Congratulations!
+</h1>
+<section>
+    <p>
+        You Win!
+    </p>
+</section>
+                `;
+    } else {
+        // you lost, begin the long process of string concatenation
+        let wrongAnswers = [];
+        // get all the question titles
+        c.playerAnswers.forEach((answer, index) => {
+            if (parseInt(answer, 10) !== 0) {
+                wrongAnswers.push(`Question ${index + 1},`);
+            }
+        });
+        // put an 'and' in there 2nd to last
+        if (wrongAnswers.length > 1)
+            wrongAnswers.splice(wrongAnswers.length - 1, 0, "and");
+        // slice in the template down below removes the trailing comma
+        return `
+<legend>
+    Too bad!
+</legend>
+<h1
+    id="form-question"
+    title="You lost. Try again."
+    aria-label="You lost. Try again."
+    class="form__header"
+    >
+    Try again.
+</h1>
+<section>
+    <p>
+        You Lose...
+        <br>
+        You got ${wrongAnswers.join(" ").slice(0, -1)} wrong.
+    </p>
+</section>
+                `;
     }
 };
 
@@ -157,7 +218,7 @@ const _renderForm = (c, index) => {
     id="form-question"
     title="${q.question}"
     aria-label="${q.question}"
-    class="form__heading"
+    class="form__header"
     >
     ${q.question}
 </h1>
@@ -209,64 +270,6 @@ const _renderForm = (c, index) => {
     return true;
 };
 
-// This returns the innermost part of the win screen.
-// It also handles the logic of  reviewing your game
-const _generateWinScreenContent = c => {
-    // you won, easy enough
-    if (QUESTIONS.length === c.correct) {
-        return `
-<legend>
-    Nice
-</legend>
-<h1
-    id="form-question"
-    title="You won! Congratulations!"
-    aria-label="You won! Congratulations!"
-    class="form__heading"
-    >
-    Congratulations!
-</h1>
-<section>
-    <p>
-        You Win!
-    </p>
-</section>
-                `;
-    } else {
-        // you lost, begin the long process of string concatenation
-        let wrongAnswers = [];
-        // get all the question titles
-        c.playerAnswers.forEach((answer, index) => {
-            if (parseInt(answer, 10) !== 0) {
-                wrongAnswers.push(`Question ${index + 1},`);
-            }
-        });
-        // put an 'and' in there 2nd to last
-        if (wrongAnswers.length > 1)
-            wrongAnswers.splice(wrongAnswers.length - 1, 0, "and");
-        // slice in the template down below removes the trailing comma
-        return `
-<legend>
-    Too bad!
-</legend>
-<h1
-    id="form-question"
-    title="You lost. Try again."
-    aria-label="You lost. Try again."
-    class="form__heading"
-    >
-    Try again.
-</h1>
-<section>
-    <p>
-        You Lose...
-        <br>
-        You got ${wrongAnswers.join(" ").slice(0, -1)} wrong.
-    </p>
-</section>
-                `;
-    }
-};
 // main function for the win screen
 const _renderWinScreen = c => {
     $("#js-fieldset").html($(_generateWinScreenContent(c)));

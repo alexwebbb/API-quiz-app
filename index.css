@@ -42,15 +42,27 @@ html {
 .form__row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .form__column {
-    flex: 2 1 auto;
+    flex: 1 1 auto;
+    max-width: 300px;
+}
+
+.form__header {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.form__wrong-answer-header {
+    font-size: 12px;
+    font-weight: normal;
 }
 
 .form__nav {
-
+    display: flex;
+    justify-content: space-around;
 }
 
 .nav__element {
