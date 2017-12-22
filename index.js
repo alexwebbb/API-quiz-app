@@ -100,7 +100,8 @@ function _generateAnswer(a) {
     <label 
         id="label-${a.ID}"
         for="answer-${a.ID}"
-        class="js-label-${a.position}"
+        title="${a.value}"
+        aria-label="${a.value}"
         >
         ${a.value}
     </label>
@@ -108,14 +109,15 @@ function _generateAnswer(a) {
         id="answer-${a.ID}"
         type="radio"
         role="radio"
-        aria-labelledby="label-${a.ID}"
+        title="${a.value}"
+        aria-labelledby="form-question label-${a.ID}"
         name="answer-set" 
-        class="question js-input-${a.position}"
+        class="question"
         value="${a.ID}"
         >
 </figure>                          
             `;
-}//////
+}
 
 // more or less the main internal function
 // this covers everything except the win screen
@@ -135,7 +137,11 @@ function _renderForm(c, index) {
 <legend>
     Question ${index + 1}
 </legend>
-<h1>
+<h1
+    id="form-question"
+    title="${q.question}"
+    aria-label="${q.question}"
+    >
     ${q.question}
 </h1>
 <section>
@@ -158,16 +164,22 @@ function _renderForm(c, index) {
 </span>
 <button
     form="main-form"
-    role="button"
+    name="Previous"
+    title="Previous question"
+    aria-label="Previous question"
     type="button"
+    role="button"
     class="nav-element js-prev-button"
     >
     Prev
 </button>
 <button
     form="main-form"    
-    role="button"
+    name="Next"
+    title="Next question"
+    aria-label="Next question"
     type="submit"
+    role="button"
     class="nav-element js-next-button"
     >
     Next
@@ -180,7 +192,7 @@ function _renderForm(c, index) {
 
 // This returns the innermost part of the win screen.
 // It also handles the logic of  reviewing your game
-function _returnWinScreenContent(c) {
+function _generateWinScreenContent(c) {
     // you won, easy enough
     if (QUESTIONS.length === c.correct) {
         return `
@@ -227,8 +239,8 @@ function _returnWinScreenContent(c) {
     }
 }
 // main function for the win screen
-function _generateWinScreen(c) {
-    $("#js-fieldset").html($(_returnWinScreenContent(c)));
+function _renderWinScreen(c) {
+    $("#js-fieldset").html($(_generateWinScreenContent(c)));
 
     // where the strings are put in the html
     $("#js-nav").html(
@@ -245,16 +257,22 @@ function _generateWinScreen(c) {
 </span>
 <button
     form="main-form"
-    role="button"
+    name="Disabled Button"
+    title="Disabled Button"
+    aria-label="Disabled button"
     type="button"
+    role="presentation"
     class="nav-element js-prev-button"
     disabled
     >
 </button>
 <button
     form="main-form"
-    role="button"
+    name="Reset"
+    title="Reset Quiz Button"
+    aria-label="Reset quiz button"
     type="reset"
+    role="button"
     class="nav-element js-next-button reset"
     >
     Reset?
@@ -299,7 +317,7 @@ function handleNav(c) {
             // if we have answers for all questions, we go to the win screen,
             // otherwise, we go to the next question
             if (QUESTIONS.length === c.playerAnswers.length) {
-                _generateWinScreen(c);
+                _renderWinScreen(c);
             } else {
                 _renderForm(c, c.questionNum);
             }
