@@ -91,8 +91,7 @@ const _serializeResponse = r => {
     });
 };
 
-// this generates a form entry and positions it using inline css
-function _generateAnswer(a) {
+const _generateAnswer = a => {
     return `         
 <figure 
     class="answer"
@@ -117,11 +116,28 @@ function _generateAnswer(a) {
         >
 </figure>                          
             `;
-}
+};
+
+const _generateAside = (c, index) => {
+    if (index > 0 && parseInt(c.playerAnswers[index - 1], 10) !== 0) {
+        return `
+<h1>
+    Sorry... You got that last question wrong.
+</h1>
+<p>
+    The correct answer was ${
+        QUESTIONS[index - 1].answers.find(a => parseInt(a.ID, 10) === 0).value
+    }
+</p>
+    `;
+    } else {
+        return "";
+    }
+};
 
 // more or less the main internal function
 // this covers everything except the win screen
-function _renderForm(c, index) {
+const _renderForm = (c, index) => {
     const q = QUESTIONS[index];
     const a = q.answers;
     // we will join this in a template string down below
@@ -188,12 +204,14 @@ function _renderForm(c, index) {
         `)
     );
 
+    $("#js-aside").html($(_generateAside(c, index)));
+
     return true;
-}
+};
 
 // This returns the innermost part of the win screen.
 // It also handles the logic of  reviewing your game
-function _generateWinScreenContent(c) {
+const _generateWinScreenContent = c => {
     // you won, easy enough
     if (QUESTIONS.length === c.correct) {
         return `
@@ -248,9 +266,9 @@ function _generateWinScreenContent(c) {
 </section>
                 `;
     }
-}
+};
 // main function for the win screen
-function _renderWinScreen(c) {
+const _renderWinScreen = c => {
     $("#js-fieldset").html($(_generateWinScreenContent(c)));
 
     // where the strings are put in the html
@@ -295,19 +313,21 @@ function _renderWinScreen(c) {
         event.preventDefault();
         loadInitialState(c);
     });
-}
+};
 
-function loadInitialState(c) {
+const loadInitialState = c => {
     // very simple, call the state object's native method
     c.resetState();
     // render the form, passing in the first index
     _renderForm(c, 0);
-}
+};
 // basically the main logic function. handles score checking round to round
-function handleNav(c) {
+const handleNav = c => {
     // watch for a click on the go back button
     $("#js-nav").on("click", ".js-prev-button", () => {
         if (c.questionNum > 0) {
+            c.playerAnswers.splice(-1, 1);
+            c.updateScore();
             c.questionNum--;
             _renderForm(c, c.questionNum);
         }
@@ -334,9 +354,9 @@ function handleNav(c) {
             }
         }
     });
-}
+};
 
-function handleQuiz(data) {
+const handleQuiz = data => {
     QUESTIONS = _serializeResponse(data);
 
     // change current to win or lose to try that stub
@@ -348,6 +368,6 @@ function handleQuiz(data) {
     handleNav(state);
     // just a fun c convention, no purpose really but doesn't hurt
     return 0;
-}
+};
 // here is where we import our questions data model.
 $.getJSON("https://opentdb.com/api.php?amount=5", handleQuiz);
