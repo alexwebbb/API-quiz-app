@@ -11,65 +11,50 @@
 <body class="container">
 <header role="banner">
     <h1>
-    Cool Quiz and the Holy Grail </h1>
-<h2>Test your mettle with the random quiz generator</h2>
-<p>Can you get all ten of these random quiz questions right?</p>
+        Cool Quiz and the Holy Grail
+    </h1>
+    <h2>
+        Test your mettle with the random quiz generator
+    </h2>
+    <p>
+        Can you get all ten of these random quiz questions right?
+    </p>
 </header>
-<main id="main-app" role="main" class="main-container">
+<main
+role="main"
+class="main-container"
+>
 <form
     method="post"
-    id="main-form"
     >
     <section
         class="form-row"
         >
         <fieldset
+            id="js-fieldset"
+            role="form"
+            aria-live="polite"
             class="form-column"
             >
-            <legend>
-                ${q.title}
-            </legend>
-            <h1>
-            ${q.text} </h1>
-            <section>
-                ${formElements.join('')}
-            </section>
         </fieldset>
         <aside
+            id="js-aside"
+            role="complementary"
+            aria-live="assertive"
             class="form-column"
-            >
+            > 
         </aside>
     </section>
     <nav
+        id="js-nav"
         role="navigation"
-        >
-        <span
-            class="nav-element"
-            >
-            Correct: ${c.correct}
-        </span>
-        <span
-            class="nav-element"
-            >
-            Wrong: ${c.wrong}
-        </span>
-        <input
-        class="nav-element prev-button nav-button"
-        role="button"
-        type="button"
-        value="Prev"
-        >
-        <input
-        class="nav-element next-button nav-button"
-        role="button"
-        type="submit"
-        value="Next"
+        aria-live="polite"
         >
     </nav>
 </form>
 </main>
 <footer role="footer">
-Alex Webb 2017
+    Alex Webb 2017
 </footer>
 </body>
 <!--

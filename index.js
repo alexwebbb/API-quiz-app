@@ -127,69 +127,53 @@ function _renderForm(c, index) {
         // push the actual form element
         formElements.push(_generateAnswer(answer));
     });
-    // here is the template string where all these strings will be dumped into the scene
-    // note the html comments
-    $("#main-app").html(
+
+    $("#js-fieldset").html(
         $(`
+<legend>
+    Question ${index + 1}
+</legend>
+<h1>
+    ${q.question}
+</h1>
+<section>
+    ${formElements.join("")}
+</section>
+        `)
+    );
 
-<form
-    method="post"
-    id="main-form"
+    $("#js-nav").html(
+        $(`
+<span
+    class="nav-element"
     >
-    <section
-        class="form-row"
-        >
-        <fieldset
-            class="form-column"
-            >
-            <legend>
-                ${q.title}
-            </legend>
-            <h1>
-            ${q.question} </h1>
-            <section>
-                ${formElements.join("")}
-            </section>
-        </fieldset>
-        <aside
-            class="form-column"
-            >
-            
-        </aside>
-    </section>
-    <nav
-        role="navigation"
-        >
-        <span
-            class="nav-element"
-            >
-            Correct: ${c.correct}
-        </span>
-        <span
-            class="nav-element"
-            >
-            Wrong: ${c.wrong}
-        </span>
-        <input
-        class="nav-element prev-button nav-button"
-        role="button"
-        type="button"
-        value="Prev"
-        >
-        <input
-        class="nav-element next-button nav-button"
-        role="button"
-        type="submit"
-        value="Next"
-        >
-    </nav>
-</form>
-
+    Correct: ${c.correct}
+</span>
+<span
+    class="nav-element"
+    >
+    Wrong: ${c.wrong}
+</span>
+<button
+    role="button"
+    type="button"
+    class="nav-element prev-button nav-button"
+    >
+    Prev
+</button>
+<button
+    role="button"
+    type="submit"
+    class="nav-element next-button nav-button"
+    >
+    Next
+</button>
         `)
     );
 
     return true;
 }
+
 // This returns the innermost part of the win screen.
 // It also handles the logic of  reviewing your game
 function _returnWinScreenContent(c) {
@@ -304,14 +288,14 @@ function loadInitialState(c) {
 // basically the main logic function. handles score checking round to round
 function handleNav(c) {
     // watch for a click on the go back button
-    $("#main-app").on("click", ".prev-button", () => {
+    $("#js-nav").on("click", ".prev-button", () => {
         if (c.questionNum > 0) {
             c.questionNum--;
             _renderForm(c, c.questionNum);
         }
     });
     // watch for click on next button. because it is also submit, it is more complex
-    $("#main-app").on("click", ".next-button", event => {
+    $("#js-nav").on("click", ".next-button", event => {
         event.preventDefault();
         // update the value of the answer in the state.
         // in this version, you must always pick an answer again if you go back
