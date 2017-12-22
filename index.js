@@ -124,7 +124,7 @@ const _generateAside = (c, index) => {
 <h1
     title="$You got that last question wrong."
     aria-label="You got that last question wrong."
-    class="form__wrong-answer-header"
+    class="form__wrong-answer-heading"
     >
     Sorry... You got that last question wrong.
 </h1>
@@ -150,7 +150,7 @@ const _generateWinScreenContent = c => {
     id="form-question"
     title="You won! Congratulations!"
     aria-label="You won! Congratulations!"
-    class="form__header"
+    class="form__heading"
     >
     Congratulations!
 </h1>
@@ -181,7 +181,7 @@ const _generateWinScreenContent = c => {
     id="form-question"
     title="You lost. Try again."
     aria-label="You lost. Try again."
-    class="form__header"
+    class="form__heading"
     >
     Try again.
 </h1>
@@ -218,7 +218,7 @@ const _renderForm = (c, index) => {
     id="form-question"
     title="${q.question}"
     aria-label="${q.question}"
-    class="form__header"
+    class="form__heading"
     >
     ${q.question}
 </h1>

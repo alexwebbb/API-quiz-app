@@ -35,10 +35,6 @@ html {
     
 }
 
-.form__heading {
-
-}
-
 .form__row {
     display: flex;
     flex-wrap: wrap;
@@ -50,12 +46,12 @@ html {
     max-width: 300px;
 }
 
-.form__header {
+.form__heading {
     font-size: 12px;
     font-weight: normal;
 }
 
-.form__wrong-answer-header {
+.form__wrong-answer-heading {
     font-size: 12px;
     font-weight: normal;
 }
