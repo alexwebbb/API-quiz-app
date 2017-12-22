@@ -17,7 +17,7 @@
         Test your mettle with the random quiz generator
     </h2>
     <p>
-        Can you get all ten of these random quiz questions right?
+        Can you get all of these random quiz questions right?
     </p>
 </header>
 <main
@@ -25,6 +25,8 @@ role="main"
 class="main-container"
 >
 <form
+    id="main-form"
+    role="form"
     method="post"
     >
     <section
@@ -32,7 +34,7 @@ class="main-container"
         >
         <fieldset
             id="js-fieldset"
-            role="form"
+            role="radiogroup"
             aria-live="polite"
             class="form-column"
             >
@@ -53,7 +55,7 @@ class="main-container"
     </nav>
 </form>
 </main>
-<footer role="footer">
+<footer role="contentinfo">
     Alex Webb 2017
 </footer>
 </body>

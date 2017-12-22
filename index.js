@@ -43,30 +43,6 @@ winState.resetState = function() {
     this.correct = 0;
     this.wrong = 0;
 };
-// this generates a form entry and positions it using inline css
-function _generateAnswer(a) {
-    return `
-                
-<figure 
-    class="answer"
-    >
-    <label 
-        for="answer-${a.ID}" 
-        class="js-label-${a.position}"
-        >
-        ${a.value}
-    </label>
-    <input 
-        type="radio" 
-        name="answer-set" 
-        id="answer-${a.ID}" 
-        class="question js-input-${a.position}"
-        value="${a.ID}"
-        >
-</figure>
-                             
-            `;
-}
 
 // helper functions
 // fisher-yates shuffle
@@ -115,6 +91,32 @@ const _serializeResponse = r => {
     });
 };
 
+// this generates a form entry and positions it using inline css
+function _generateAnswer(a) {
+    return `         
+<figure 
+    class="answer"
+    >
+    <label 
+        id="label-${a.ID}"
+        for="answer-${a.ID}"
+        class="js-label-${a.position}"
+        >
+        ${a.value}
+    </label>
+    <input 
+        id="answer-${a.ID}"
+        type="radio"
+        role="radio"
+        aria-labelledby="label-${a.ID}"
+        name="answer-set" 
+        class="question js-input-${a.position}"
+        value="${a.ID}"
+        >
+</figure>                          
+            `;
+}//////
+
 // more or less the main internal function
 // this covers everything except the win screen
 function _renderForm(c, index) {
@@ -155,16 +157,18 @@ function _renderForm(c, index) {
     Wrong: ${c.wrong}
 </span>
 <button
+    form="main-form"
     role="button"
     type="button"
-    class="nav-element prev-button nav-button"
+    class="nav-element js-prev-button"
     >
     Prev
 </button>
 <button
+    form="main-form"    
     role="button"
     type="submit"
-    class="nav-element next-button nav-button"
+    class="nav-element js-next-button"
     >
     Next
 </button>
@@ -180,32 +184,17 @@ function _returnWinScreenContent(c) {
     // you won, easy enough
     if (QUESTIONS.length === c.correct) {
         return `
-
-<fieldset>
-    <legend>
-        Nice
-    </legend>
-    <h1>
-        Congratulations!
-    </h1>
-    <div 
-        class="win-condition"
-        >
-        <div class="win-subgroup">
-            <img
-                class="grail" 
-                src="http://res.cloudinary.com/execool/image/upload/c_scale,h_200/v1510143883/quiz/high-quality-income-stocks-the-holy-grail-for-investors_yqlmqp.png" 
-                alt="Its the Holy Grail! You now have eternal life I guess. Don't drop it down a ravine." 
-                class="obstruct-img"
-                >
-            <p>
-                You Win!<br>
-                Here it is!
-            </p>
-        </div>
-    </div>
-</fieldset>
-
+<legend>
+    Nice
+</legend>
+<h1>
+    Congratulations!
+</h1>
+<section>
+    <p>
+        You Win!
+    </p>
+</section>
                 `;
     } else {
         // you lost, begin the long process of string concatenation
@@ -221,55 +210,55 @@ function _returnWinScreenContent(c) {
             wrongAnswers.splice(wrongAnswers.length - 1, 0, "and");
         // slice in the template down below removes the trailing comma
         return `
-
-<fieldset>
-    <legend>
-        Too bad!
-    </legend>
-    <h1>
-        You turned into a skeleton!
-    </h1>
-    <div 
-
-        class="win-condition"
-        >
-        <div class="win-subgroup">
-            <img
-                class="grail" 
-                src="http://res.cloudinary.com/execool/image/upload/v1510200475/quiz/holy_grail_skeleton.jpg" 
-                alt="You turned into a skeleton because you made the wrong choice. Sorry!"
-                title="You turned into a skeleton because you made the wrong choice. Sorry!"
-                class="obstruct-img"
-                >
-            <p>
-                You Lose...<br>
-                You got ${wrongAnswers.join(" ").slice(0, -1)} wrong.</p>
-        </div>
-    </div>
-</fieldset>
-
+<legend>
+    Too bad!
+</legend>
+<h1>
+    Try again.
+</h1>
+<section>
+    <p>
+        You Lose...
+        <br>
+        You got ${wrongAnswers.join(" ").slice(0, -1)} wrong.
+    </p>
+</section>
                 `;
     }
 }
 // main function for the win screen
 function _generateWinScreen(c) {
+    $("#js-fieldset").html($(_returnWinScreenContent(c)));
+
     // where the strings are put in the html
-    $("#main-app").html(
+    $("#js-nav").html(
         $(`
-
-<form 
-    method="post"
-    id="main-form"
+<span
+    class="nav-element"
     >
-    ${_returnWinScreenContent(c)}
-    <nav role="navigation">
-        <span class="nav-element">Correct: ${c.correct}</span>
-        <span class="nav-element">Wrong: ${c.wrong}</span>
-        <input class="nav-element prev-button" role="button" type="button" value="" disabled>
-        <input class="nav-element next-button reset" role="button" type="submit" value="Reset?">
-    </nav>
-</form>
-
+    Correct: ${c.correct}
+</span>
+<span
+    class="nav-element"
+    >
+    Wrong: ${c.wrong}
+</span>
+<button
+    form="main-form"
+    role="button"
+    type="button"
+    class="nav-element js-prev-button"
+    disabled
+    >
+</button>
+<button
+    form="main-form"
+    role="button"
+    type="reset"
+    class="nav-element js-next-button reset"
+    >
+    Reset?
+</button>
         `)
     );
     // reset the game
@@ -288,14 +277,14 @@ function loadInitialState(c) {
 // basically the main logic function. handles score checking round to round
 function handleNav(c) {
     // watch for a click on the go back button
-    $("#js-nav").on("click", ".prev-button", () => {
+    $("#js-nav").on("click", ".js-prev-button", () => {
         if (c.questionNum > 0) {
             c.questionNum--;
             _renderForm(c, c.questionNum);
         }
     });
     // watch for click on next button. because it is also submit, it is more complex
-    $("#js-nav").on("click", ".next-button", event => {
+    $("#js-nav").on("click", ".js-next-button", event => {
         event.preventDefault();
         // update the value of the answer in the state.
         // in this version, you must always pick an answer again if you go back
