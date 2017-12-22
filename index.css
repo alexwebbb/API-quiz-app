@@ -27,16 +27,32 @@ html {
     }
 }
 
-.form-row {
-    displ: ;
+.container__main {
+
 }
 
-.form-row {
+.main__form {
+    
+}
+
+.form__heading {
+
+}
+
+.form__row {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.form-column {
+.form__column {
     flex: 2 1 auto;
+}
+
+.form__nav {
+
+}
+
+.nav__element {
+
 }

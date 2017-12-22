@@ -112,7 +112,7 @@ function _generateAnswer(a) {
         title="${a.value}"
         aria-labelledby="form-question label-${a.ID}"
         name="answer-set" 
-        class="question"
+        class="js-answer"
         value="${a.ID}"
         >
 </figure>                          
@@ -141,6 +141,7 @@ function _renderForm(c, index) {
     id="form-question"
     title="${q.question}"
     aria-label="${q.question}"
+    class="form__heading"
     >
     ${q.question}
 </h1>
@@ -153,34 +154,34 @@ function _renderForm(c, index) {
     $("#js-nav").html(
         $(`
 <span
-    class="nav-element"
+    class="nav__element"
     >
     Correct: ${c.correct}
 </span>
 <span
-    class="nav-element"
+    class="nav__element"
     >
     Wrong: ${c.wrong}
 </span>
 <button
     form="main-form"
     name="Previous"
-    title="Previous question"
+    title="Previous Question"
     aria-label="Previous question"
     type="button"
     role="button"
-    class="nav-element js-prev-button"
+    class="nav__element js-prev-button"
     >
     Prev
 </button>
 <button
     form="main-form"    
     name="Next"
-    title="Next question"
+    title="Next Question"
     aria-label="Next question"
     type="submit"
     role="button"
-    class="nav-element js-next-button"
+    class="nav__element js-next-button"
     >
     Next
 </button>
@@ -199,7 +200,12 @@ function _generateWinScreenContent(c) {
 <legend>
     Nice
 </legend>
-<h1>
+<h1
+    id="form-question"
+    title="You won! Congratulations!"
+    aria-label="You won! Congratulations!"
+    class="form__heading"
+    >
     Congratulations!
 </h1>
 <section>
@@ -225,7 +231,12 @@ function _generateWinScreenContent(c) {
 <legend>
     Too bad!
 </legend>
-<h1>
+<h1
+    id="form-question"
+    title="You lost. Try again."
+    aria-label="You lost. Try again."
+    class="form__heading"
+    >
     Try again.
 </h1>
 <section>
@@ -246,12 +257,12 @@ function _renderWinScreen(c) {
     $("#js-nav").html(
         $(`
 <span
-    class="nav-element"
+    class="nav__element"
     >
     Correct: ${c.correct}
 </span>
 <span
-    class="nav-element"
+    class="nav__element"
     >
     Wrong: ${c.wrong}
 </span>
@@ -262,7 +273,7 @@ function _renderWinScreen(c) {
     aria-label="Disabled button"
     type="button"
     role="presentation"
-    class="nav-element js-prev-button"
+    class="nav__element js-prev-button"
     disabled
     >
 </button>
@@ -273,7 +284,7 @@ function _renderWinScreen(c) {
     aria-label="Reset quiz button"
     type="reset"
     role="button"
-    class="nav-element js-next-button reset"
+    class="nav__element js-next-button reset"
     >
     Reset?
 </button>
@@ -306,7 +317,7 @@ function handleNav(c) {
         event.preventDefault();
         // update the value of the answer in the state.
         // in this version, you must always pick an answer again if you go back
-        c.playerAnswers[c.questionNum] = $("input.question:checked").val();
+        c.playerAnswers[c.questionNum] = $("input.js-answer:checked").val();
         // call the update score method on the state and increment the question number
         if (
             c.questionNum < c.playerAnswers.length &&
