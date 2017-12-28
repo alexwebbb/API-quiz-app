@@ -1,20 +1,40 @@
-<figure
-    class="answer"
-    style="
-    left: ${a.offset.left}px;
-    top: ${a.offset.top}px;"
+<section
+    class="nav__column"
     >
-    <label
-        for="answer-${a.ID}"
-        class="js-label-${a.position}"
+    <span
+        class="nav__element"
         >
-        ${a.value}
-    </label>
-    <input
-    type="radio"
-    name="answer-set"
-    id="answer-${a.ID}"
-    class="question js-input-${a.position}"
-    value="${a.ID}"
+        Correct: ${c.correct}
+    </span>
+    <span
+        class="nav__element"
+        >
+        Wrong: ${c.wrong}
+    </span>
+</section>
+<section
+    class="nav__column"
     >
-</figure>
+    <button
+        form="main-form"
+        name="Previous"
+        title="Previous Question"
+        aria-label="Previous question"
+        type="button"
+        role="button"
+        class="nav__element js-prev-button"
+        >
+        Prev
+    </button>
+    <button
+        form="main-form"
+        name="Next"
+        title="Next Question"
+        aria-label="Next question"
+        type="submit"
+        role="button"
+        class="nav__element js-next-button"
+        >
+        Next
+    </button>
+</section>

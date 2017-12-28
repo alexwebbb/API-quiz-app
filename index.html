@@ -9,16 +9,29 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body class="container">
-<header role="banner">
-    <h1>
-        Ultimate Random Quiz
-    </h1>
-    <h2>
-        Test your mettle with the random quiz generator
-    </h2>
-    <p>
-        Can you get all of these random quiz questions right?
-    </p>
+<header
+    role="banner"
+    class="container__header"
+    >
+    <section
+        class="header__content"
+        >
+        <h1
+            class="header__content-h1"
+            >
+            Open Trivia Challenge
+        </h1>
+        <h2
+            class="header__content-h2"
+            >
+            Can you answer five random questions correctly?
+        </h2>
+        <p
+            class="header__content-p"
+            >
+            Test your mettle with this random quiz generator using the <a href="https://opentdb.com" target="_blank">Open Trivia Database API</a>
+        </p>
+    </section>
 </header>
 <main
 role="main"
@@ -38,7 +51,7 @@ class="container__main"
             id="js-fieldset"
             role="radiogroup"
             aria-live="polite"
-            class="form__column"
+            class="form__column form__fieldset"
             >
         </fieldset>
         <aside
@@ -60,11 +73,11 @@ class="container__main"
 </main>
 <footer
     role="contentinfo"
+    class="footer"
     >
     Alex Webb 2017
 </footer>
 </body>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="jquery.ui.touch-punch.min.js"></script>
 <script src="index.js"></script>
 </html>

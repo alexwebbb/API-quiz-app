@@ -96,14 +96,6 @@ const _generateAnswer = a => {
 <figure 
     class="answer"
     >
-    <label 
-        id="label-${a.ID}"
-        for="answer-${a.ID}"
-        title="${a.value}"
-        aria-label="${a.value}"
-        >
-        ${a.value}
-    </label>
     <input 
         id="answer-${a.ID}"
         type="radio"
@@ -114,6 +106,14 @@ const _generateAnswer = a => {
         class="js-answer"
         value="${a.ID}"
         >
+    <label 
+        id="label-${a.ID}"
+        for="answer-${a.ID}"
+        title="${a.value}"
+        aria-label="${a.value}"
+        >
+        ${a.value}
+    </label>
 </figure>                          
             `;
 };
@@ -121,18 +121,23 @@ const _generateAnswer = a => {
 const _generateAside = (c, index) => {
     if (index > 0 && parseInt(c.playerAnswers[index - 1], 10) !== 0) {
         return `
-<h1
-    title="$You got that last question wrong."
-    aria-label="You got that last question wrong."
-    class="form__wrong-answer-heading"
+<section
+    class="form__wrong-answer"
     >
-    Sorry... You got that last question wrong.
-</h1>
-<p>
-    The correct answer was ${
-        QUESTIONS[index - 1].answers.find(a => parseInt(a.ID, 10) === 0).value
-    }
-</p>
+    <h1
+        title="$You got that last question wrong."
+        aria-label="You got that last question wrong."
+        class="form__wrong-answer-heading"
+        >
+        Sorry... You got that last question wrong.
+    </h1>
+    <p>
+        The correct answer was ${
+            QUESTIONS[index - 1].answers.find(a => parseInt(a.ID, 10) === 0)
+                .value
+        }
+    </p>
+</section>
     `;
     } else {
         return "";
@@ -230,38 +235,46 @@ const _renderForm = (c, index) => {
 
     $("#js-nav").html(
         $(`
-<span
-    class="nav__element"
+<section
+    class="nav__column"
     >
-    Correct: ${c.correct}
-</span>
-<span
-    class="nav__element"
+    <span
+        class="nav__element element__score"
+        >
+        Correct: ${c.correct}
+    </span>
+    <span
+        class="nav__element element__score"
+        >
+        Wrong: ${c.wrong}
+    </span>
+</section>
+<section
+    class="nav__column"
     >
-    Wrong: ${c.wrong}
-</span>
-<button
-    form="main-form"
-    name="Previous"
-    title="Previous Question"
-    aria-label="Previous question"
-    type="button"
-    role="button"
-    class="nav__element js-prev-button"
-    >
-    Prev
-</button>
-<button
-    form="main-form"    
-    name="Next"
-    title="Next Question"
-    aria-label="Next question"
-    type="submit"
-    role="button"
-    class="nav__element js-next-button"
-    >
-    Next
-</button>
+    <button
+        form="main-form"
+        name="Previous"
+        title="Previous Question"
+        aria-label="Previous question"
+        type="button"
+        role="button"
+        class="nav__element js-prev-button element__button"
+        >
+        Prev
+    </button>
+    <button
+        form="main-form"
+        name="Next"
+        title="Next Question"
+        aria-label="Next question"
+        type="submit"
+        role="button"
+        class="nav__element js-next-button element__button"
+        >
+        Next
+    </button>
+</section>
         `)
     );
 
@@ -277,38 +290,35 @@ const _renderWinScreen = c => {
     // where the strings are put in the html
     $("#js-nav").html(
         $(`
-<span
-    class="nav__element"
+<section
+    class="nav__column"
     >
-    Correct: ${c.correct}
-</span>
-<span
-    class="nav__element"
+    <span
+        class="nav__element element__score"
+        >
+        Correct: ${c.correct}
+    </span>
+    <span
+        class="nav__element element__score"
+        >
+        Wrong: ${c.wrong}
+    </span>
+</section>
+<section
+    class="nav__column"
     >
-    Wrong: ${c.wrong}
-</span>
-<button
-    form="main-form"
-    name="Disabled Button"
-    title="Disabled Button"
-    aria-label="Disabled button"
-    type="button"
-    role="presentation"
-    class="nav__element js-prev-button"
-    disabled
-    >
-</button>
-<button
-    form="main-form"
-    name="Reset"
-    title="Reset Quiz Button"
-    aria-label="Reset quiz button"
-    type="reset"
-    role="button"
-    class="nav__element js-next-button reset"
-    >
-    Reset?
-</button>
+    <button
+        form="main-form"
+        name="Reset"
+        title="Reset Quiz Button"
+        aria-label="Reset quiz button"
+        type="reset"
+        role="button"
+        class="nav__element js-next-button element__button reset"
+        >
+        Reset?
+    </button>
+</section>
         `)
     );
     // reset the game

@@ -1,54 +1,134 @@
 /* inherit box sizing */
 html {
     box-sizing: border-box;
-    color: #005555;
+    color: dimgrey;
 }
 
-*,
-*:before,
-*:after {
+*, *:before, *:after {
     box-sizing: inherit;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: mediumseagreen;
+}
+
+a:visited {
+    color: tomato;
+}
+
+a:focus {
+    color: turquoise;
+}
+
+a:hover {
+    color: turquoise;
+}
+
+a:active {
+    color: gold;
 }
 
 .container {
     width: 95%;
     margin: 0 auto;
+    padding-top: 20px;/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#efe28d+4,fcfcfc+42,fcfcfc+55,efe28d+96 */
+    background: rgb(239, 226, 141); /* Old browsers */
+    background: -moz-linear-gradient(left, rgba(239, 226, 141, 1) 4%, rgba(252, 252, 252, 1) 42%, rgba(252, 252, 252, 1) 55%, rgba(239, 226, 141, 1) 96%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(239, 226, 141, 1) 4%, rgba(252, 252, 252, 1) 42%, rgba(252, 252, 252, 1) 55%, rgba(239, 226, 141, 1) 96%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(239, 226, 141, 1) 4%, rgba(252, 252, 252, 1) 42%, rgba(252, 252, 252, 1) 55%, rgba(239, 226, 141, 1) 96%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efe28d', endColorstr='#efe28d', GradientType=1); /* IE6-9 */
 }
 
 @media (min-width:600px) {
     .container {
         width: 70%;
     }
+
 }
 
 @media (min-width:1000px) {
     .container {
         width: 700px;
     }
+
+}
+
+.container__header {
+    border-top: 2px dotted white;
+    border-left: 2px dotted white;
+    border-right: 2px dotted white;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a1dbff+0,cbebff+47,f0f9ff+100&1+0,0+100 */
+    background: -moz-linear-gradient(top, rgba(161, 219, 255, 1) 0%, rgba(203, 235, 255, 0.53) 47%, rgba(240, 249, 255, 0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(161, 219, 255, 1) 0%, rgba(203, 235, 255, 0.53) 47%, rgba(240, 249, 255, 0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(161, 219, 255, 1) 0%, rgba(203, 235, 255, 0.53) 47%, rgba(240, 249, 255, 0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a1dbff', endColorstr='#00f0f9ff', GradientType=0); /* IE6-9 */
+}
+
+.header__content {
+    max-width: 400px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 20px 0 10px 0;
+}
+
+.header__content-h1 {
+    font-size: 36px;
+    color: teal;
+}
+
+.header__content-h2 {
+    color: gray;
+}
+
+.header__content-p {
 }
 
 .container__main {
-
+    background-color: rgba(227, 209, 212, 0.3);
+    border: 2px dotted white;
+    border-top: 12px solid white;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .main__form {
-    
+    padding: 30px 0;
 }
 
 .form__row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .form__column {
-    flex: 1 1 auto;
+    flex: 1 1 content;
     max-width: 300px;
+}
+
+.form__fieldset {
+    border-color: white;
+    border-radius: 1px 1px 8px 8px;
+
+    background-color: lightcyan;
 }
 
 .form__heading {
     font-size: 12px;
     font-weight: normal;
+}
+
+.form__wrong-answer {
+    border: 2px dashed red;
+    border-radius: 4px;
+    margin: 10px;
+    padding: 10px;
+    background-color: rgba(255,253,244,0.7);
 }
 
 .form__wrong-answer-heading {
@@ -59,8 +139,44 @@ html {
 .form__nav {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+    padding-top: 25px;
+}
+
+.nav__column {
+    padding: 5px;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .nav__element {
+    border: 2px solid black;
+    border-radius: 2px;
+    width: 120px;
+    padding: 5px;
+    margin: 0 5px;
+}
 
+.element__score {
+    color: sandybrown;
+    border-color: darkgoldenrod;
+    background-color: white;
+}
+
+.element__button {
+    color: white;
+    background-color: peru;
+    border-color: sandybrown;
+    transition: background-color 1s, color 0.2s;
+}
+
+.element__button:hover {
+    color: indianred;
+    background-color: palegreen;
+}
+
+.footer {
+    margin-top: 300px;
+    text-align: center;
+    color: sandybrown;
 }
