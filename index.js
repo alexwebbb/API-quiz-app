@@ -108,7 +108,7 @@ const _generateStartButton = () => {
 </button>
 
     `;
-}
+};
 
 const _generateAnswer = a => {
     return `         
@@ -398,24 +398,18 @@ const handleNav = c => {
     });
 };
 
-const startApplication = (state) => {
-
+const startApplication = state => {
+    // creates the first view, ie a start button
     $("#js-fieldset").html($(_generateStartButton()));
 
+    // when the button is clicked the quiz gets loaded into view
     $("#js-start").click(() => {
-
-    // load the initial view
-    _loadInitialState(state);
-    // call the function that establishes our main event listeners
-    handleNav(state);
-    // just a fun c convention, no purpose really but doesn't hurt
-
+        // load the initial view
+        _loadInitialState(state);
+        // call the function that establishes our main event listeners
+        handleNav(state);
     });
-
-
-}
-
-
+};
 
 const handleQuiz = data => {
     QUESTIONS = _serializeResponse(data);
@@ -424,8 +418,10 @@ const handleQuiz = data => {
     // state is always passed as a parameter for easy stubbing
     const state = currentState;
 
+    // creates our first button that will load the initial state
     startApplication(state);
-    
+
+    // just a fun c convention, no purpose really but doesn't hurt
     return 0;
 };
 // here is where we import our questions data model.
