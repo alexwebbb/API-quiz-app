@@ -2,6 +2,11 @@
 html {
     box-sizing: border-box;
     color: dimgrey;
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2 {
+    font-family: 'Nunito', sans-serif;
 }
 
 *, *:before, *:after {
@@ -79,10 +84,12 @@ a:active {
 .header__content-h1 {
     font-size: 36px;
     color: teal;
+    text-shadow: 3px 2px 2px seashell;
 }
 
 .header__content-h2 {
     color: gray;
+    text-shadow: 1px 1px 1px silver;
 }
 
 .header__content-p {
@@ -114,7 +121,6 @@ a:active {
 .form__fieldset {
     border-color: white;
     border-radius: 1px 1px 8px 8px;
-
     background-color: lightcyan;
 }
 
@@ -128,7 +134,7 @@ a:active {
     border-radius: 4px;
     margin: 10px;
     padding: 10px;
-    background-color: rgba(255,253,244,0.7);
+    background-color: rgba(255, 253, 244, 0.7);
 }
 
 .form__wrong-answer-heading {
