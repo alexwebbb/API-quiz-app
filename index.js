@@ -91,6 +91,25 @@ const _serializeResponse = r => {
     });
 };
 
+const _generateStartButton = () => {
+    return `
+
+<button
+    id="js-start"
+    form="main-form"
+    name="Start Quiz"
+    title="Start Quiz Button"
+    aria-label="Start quiz button"
+    type="button"
+    role="button"
+    class="element__button form__start"
+    >
+    Start the Quiz
+</button>
+
+    `;
+}
+
 const _generateAnswer = a => {
     return `         
 <figure 
@@ -327,14 +346,15 @@ const _renderWinScreen = c => {
     // reset the game
     $(".reset").click(event => {
         event.preventDefault();
-        loadInitialState(c);
+        _loadInitialState(c);
     });
 };
 
-const loadInitialState = c => {
+const _loadInitialState = c => {
     // very simple, call the state object's native method
     c.resetState();
 
+    // clear the aside
     $("#js-aside").html($(""));
 
     // render the form, passing in the first index
@@ -378,17 +398,34 @@ const handleNav = c => {
     });
 };
 
+const startApplication = (state) => {
+
+    $("#js-fieldset").html($(_generateStartButton()));
+
+    $("#js-start").click(() => {
+
+    // load the initial view
+    _loadInitialState(state);
+    // call the function that establishes our main event listeners
+    handleNav(state);
+    // just a fun c convention, no purpose really but doesn't hurt
+
+    });
+
+
+}
+
+
+
 const handleQuiz = data => {
     QUESTIONS = _serializeResponse(data);
 
     // change current to win or lose to try that stub
     // state is always passed as a parameter for easy stubbing
     const state = currentState;
-    // load the initial view
-    loadInitialState(state);
-    // call the function that establishes our main event listeners
-    handleNav(state);
-    // just a fun c convention, no purpose really but doesn't hurt
+
+    startApplication(state);
+    
     return 0;
 };
 // here is where we import our questions data model.

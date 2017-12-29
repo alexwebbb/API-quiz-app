@@ -124,6 +124,15 @@ a:active {
     background-color: lightcyan;
 }
 
+.form__start {
+    border: 2px solid black;
+    border-radius: 2px;
+    width: 120px;
+    padding: 5px;
+    margin: 80px 60px;
+    text-align: center;
+}
+
 .form__heading {
     font-size: 12px;
     font-weight: normal;
@@ -191,3 +200,5 @@ a:active {
     text-align: center;
     color: sandybrown;
 }
+
+
