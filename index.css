@@ -165,6 +165,7 @@ a:active {
     width: 120px;
     padding: 5px;
     margin: 0 5px;
+    text-align: center;
 }
 
 .element__score {
