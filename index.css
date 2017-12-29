@@ -143,6 +143,10 @@ a:active {
     padding-top: 25px;
 }
 
+.aside__p2 {
+    color: crimson;
+}
+
 .nav__column {
     padding: 5px;
     display: flex;

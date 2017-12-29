@@ -132,6 +132,11 @@ const _generateAside = (c, index) => {
         Sorry... You got that last question wrong.
     </h1>
     <p>
+        The question was "${QUESTIONS[index - 1].question}".
+    </p>
+    <p 
+        class="aside__p2"
+        >
         The correct answer was ${
             QUESTIONS[index - 1].answers.find(a => parseInt(a.ID, 10) === 0)
                 .value
@@ -278,8 +283,6 @@ const _renderForm = (c, index) => {
         `)
     );
 
-    $("#js-aside").html($(_generateAside(c, index)));
-
     return true;
 };
 
@@ -331,6 +334,9 @@ const _renderWinScreen = c => {
 const loadInitialState = c => {
     // very simple, call the state object's native method
     c.resetState();
+
+    $("#js-aside").html($(""));
+
     // render the form, passing in the first index
     _renderForm(c, 0);
 };
@@ -358,6 +364,9 @@ const handleNav = c => {
         ) {
             c.updateScore();
             c.questionNum++;
+
+            $("#js-aside").html($(_generateAside(c, c.questionNum)));
+
             // if we have answers for all questions, we go to the win screen,
             // otherwise, we go to the next question
             if (QUESTIONS.length === c.playerAnswers.length) {
