@@ -151,7 +151,7 @@ const _generateAside = (c, index) => {
         Sorry... You got that last question wrong.
     </h1>
     <p
-        title="The question was ${QUESTIONS[index - 1].question}."
+        title="The question was... ${QUESTIONS[index - 1].question}."
         aria-label="The question was ${QUESTIONS[index - 1].question}"
         >
         The question was "${QUESTIONS[index - 1].question}".
