@@ -144,17 +144,28 @@ const _generateAside = (c, index) => {
     class="form__wrong-answer"
     >
     <h1
-        title="$You got that last question wrong."
-        aria-label="You got that last question wrong."
         class="form__wrong-answer-heading"
+        title="You got that last question wrong."
+        aria-label="You got that last question wrong."
         >
         Sorry... You got that last question wrong.
     </h1>
-    <p>
+    <p
+        title="The question was ${QUESTIONS[index - 1].question}."
+        aria-label="The question was ${QUESTIONS[index - 1].question}"
+        >
         The question was "${QUESTIONS[index - 1].question}".
     </p>
     <p 
         class="aside__p2"
+        title="The answer was ${
+            QUESTIONS[index - 1].answers.find(a => parseInt(a.ID, 10) === 0)
+                .value
+        }"
+        aria-label="The answer was ${
+            QUESTIONS[index - 1].answers.find(a => parseInt(a.ID, 10) === 0)
+                .value
+        }"
         >
         The correct answer was ${
             QUESTIONS[index - 1].answers.find(a => parseInt(a.ID, 10) === 0)
